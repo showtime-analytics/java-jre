@@ -1,7 +1,7 @@
 rancher-jvm8
 ============
 
-jvm8 image based in rancher-base
+rancher-jvm8 image based in rancher-base
 
 To build
 
