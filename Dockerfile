@@ -6,8 +6,8 @@ ENV JAVA_VERSION_MAJOR=8 \
     JAVA_VERSION_MINOR=66 \
     JAVA_VERSION_BUILD=17 \
     JAVA_PACKAGE=jre
-ENV JAVA_HOME=/opt/${JAVA_PACKAGE} \
-    PATH=${PATH}:${JAVA_HOME}/bin
+ENV JAVA_HOME /opt/${JAVA_PACKAGE} 
+ENV PATH=${PATH}:${JAVA_HOME}/bin
 
 # Download and unarchive Java
 RUN cd /tmp \
