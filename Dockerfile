@@ -1,5 +1,5 @@
 FROM rawmind/rancher-base:0.0.2-1
-MAINTAINER Raul Sanchez <rawmind@gmail.com>
+MAINTAINER Alberto Gregoris <alberto@showtimeanalytics.com>
 
 #Set environment
 ENV JAVA_VERSION_MAJOR=8 \
