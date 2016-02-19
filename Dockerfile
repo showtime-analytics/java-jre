@@ -1,4 +1,4 @@
-FROM rawmind/rancher-base:0.0.2-1
+FROM rawmind/rancher-base:0.0.2
 MAINTAINER Alberto Gregoris <alberto@showtimeanalytics.com>
 
 #Set environment
