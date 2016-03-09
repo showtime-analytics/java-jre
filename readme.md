@@ -1,17 +1,17 @@
-rancher-jvm8
-============
+java-jre8
+=========
 
-rancher-jvm8 image based in rancher-base
+java-jre8 image based in alpine-base
 
 To build
 
 ```
-docker build -t <repo>/rancher-jvm8:<version> .
+docker build -t <repo>/java-jre8:<version> .
 ```
 
 To run:
 
 ```
-docker run -it <repo>/rancher-jvm8:<version> 
+docker run -it <repo>/java-jre8:<version> 
 ```
 
