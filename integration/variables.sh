@@ -1,1 +1,1 @@
-export IMAGE_NAME="java-jre8"
+export IMAGE_NAME="java-jre"
