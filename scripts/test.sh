@@ -10,4 +10,4 @@ PROJECT_NAME=$(basename `pwd`)
 : ${REPOSITORY:=${PROJECT_NAME}}
 : ${VERSION:=`cat version`}
 
-(set -x; docker run -i --rm ${REPOSITORY}:${VERSION} bash -c "bash --version && curl --version")
+(set -x; docker run -i --rm ${REPOSITORY}:${VERSION} bash -c "java -version")
