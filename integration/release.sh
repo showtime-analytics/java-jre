@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source $(dirname $0)/variables.sh
+
 cd $(dirname $0)/..
 
 if [ -z ${DOCKER_REGISTRY+x} ]; then
@@ -19,4 +21,4 @@ fi
 
 (set -x; ./scripts/git-push-tag.sh `cat build_version`)
 
-(set -x; ./scripts/docker-push-tag.sh ${DOCKER_REGISTRY} `cat build_version` `cat version`)
+(set -x; ./scripts/docker-push-tag.sh ${DOCKER_REGISTRY} ${IMAGE_NAME} `cat build_version` `cat version`)

@@ -1,18 +1,17 @@
 #!/bin/bash
 
-source $(dirname $0)/variables.sh
-
 cd $(dirname $0)/..
 
 DOCKER_REGISTRY=$1
-BUILD_VERSION=$2
-RELEASE_VERSION=$3
+IMAGE_NAME=$2
+BUILD_VERSION=$3
+RELEASE_VERSION=$4
 
 REPOSITORY=${DOCKER_REGISTRY}/${IMAGE_NAME}
 
 set -x
 
-if [ $DOCKER_REGISTRY = "showtimeanalytics" ]; then
+if [ ${DOCKER_REGISTRY} = "showtimeanalytics" ]; then
     docker login --email="${DOCKER_HUB_EMAIL}" --username="${DOCKER_HUB_USERNAME}" --password="${DOCKER_HUB_PASSWORD}"
 fi
 
