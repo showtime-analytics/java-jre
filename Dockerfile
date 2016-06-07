@@ -1,4 +1,4 @@
-FROM showtimeanalytics/alpine-base:3.3
+FROM showtimeanalytics/alpine-base:3.4
 MAINTAINER Alberto Gregoris <alberto@showtimeanalytics.com>
 
 #Set environment
