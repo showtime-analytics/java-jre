@@ -3,20 +3,27 @@ MAINTAINER Alberto Gregoris <alberto@showtimeanalytics.com>
 
 #Set environment
 ENV JAVA_VERSION_MAJOR=8 \
-    JAVA_VERSION_MINOR=92 \
+    JAVA_VERSION_MINOR=102 \
     JAVA_VERSION_BUILD=14 \
-    JAVA_PACKAGE=jre
-ENV JAVA_HOME /opt/${JAVA_PACKAGE} 
-ENV PATH=${PATH}:${JAVA_HOME}/bin
+    JAVA_PACKAGE=jre \
+    ALPINE_GLIBC_BASE_URL="https://github.com/andyshinn/alpine-pkg-glibc/releases/download" \
+    ALPINE_GLIBC_PACKAGE_VERSION="2.23-r3"
+ENV JAVA_HOME=/opt/${JAVA_PACKAGE} \
+    PATH=${PATH}:/opt/${JAVA_PACKAGE}/bin \
+    LANG=C.UTF-8
 
-# Download and unarchive Java
+# Download and install glibc and Java
 RUN cd /tmp \
-  && apk upgrade --update \
-  && for pkg in glibc-2.23-r2 glibc-bin-2.23-r2; do curl -sSL https://github.com/andyshinn/alpine-pkg-glibc/releases/download/2.23-r2/${pkg}.apk -o /tmp/${pkg}.apk; done \
-  && apk add --allow-untrusted /tmp/*.apk \
+  && curl -jksSL "${ALPINE_GLIBC_BASE_URL}/${ALPINE_GLIBC_PACKAGE_VERSION}/glibc-${ALPINE_GLIBC_PACKAGE_VERSION}.apk" -O \
+  && curl -jksSL "${ALPINE_GLIBC_BASE_URL}/${ALPINE_GLIBC_PACKAGE_VERSION}/glibc-bin-${ALPINE_GLIBC_PACKAGE_VERSION}.apk" -O \
+  && curl -jksSL "${ALPINE_GLIBC_BASE_URL}/${ALPINE_GLIBC_PACKAGE_VERSION}/glibc-i18n-${ALPINE_GLIBC_PACKAGE_VERSION}.apk" -O \
+  && apk add --update --no-cache --virtual=build-dependencies \
+  && apk add --allow-untrusted glibc-${ALPINE_GLIBC_PACKAGE_VERSION}.apk glibc-bin-${ALPINE_GLIBC_PACKAGE_VERSION}.apk glibc-i18n-${ALPINE_GLIBC_PACKAGE_VERSION}.apk \
   && rm -v /tmp/*.apk \
-  && /usr/glibc-compat/sbin/ldconfig /lib /usr/glibc-compat/lib \
+  && /usr/glibc-compat/bin/localedef --force --inputfile POSIX --charmap UTF-8 ${LANG} || true \
+  && echo "export LANG=${LANG}" > /etc/profile.d/locale.sh \
   && echo 'hosts: files mdns4_minimal [NOTFOUND=return] dns mdns4' >> /etc/nsswitch.conf \
+  && apk del glibc-i18n && apk del build-dependencies \
   && curl -jksSLH "Cookie: oraclelicense=accept-securebackup-cookie"\
   http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/${JAVA_PACKAGE}-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz \
   | gunzip -c - | tar -xf - -C /opt \
@@ -43,4 +50,4 @@ RUN cd /tmp \
            ${JAVA_HOME}/lib/amd64/libjavafx*.so \
            ${JAVA_HOME}/lib/amd64/libjfx*.so \
            /var/cache/apk/* \
-           /tmp/* 
+           /tmp/*

@@ -1,7 +1,9 @@
+build
 version
 README.md
 .idea
 .gitignore
+.editorconfig
 *.iml
 scripts
 integration
